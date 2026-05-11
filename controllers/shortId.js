@@ -1,5 +1,6 @@
 const URL = require("../models/url");
 
+// This function redirects the user to redirectUrl page
 async function handleShortIdRoute(req, res) {
     const shortId = req.params.shortId;
 
@@ -13,7 +14,7 @@ async function handleShortIdRoute(req, res) {
     );
 
     if (!entry) {
-        return res.status(404).send('Short URL not found');
+        return res.redirect('/');
     }
 
     res.redirect(entry.redirectUrl);

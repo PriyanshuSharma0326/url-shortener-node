@@ -15,7 +15,8 @@ async function handleGenerateShortId(req, res) {
     await URL.create({
         shortId: id,
         redirectUrl: body.url,
-        visitHistory: [{ }]
+        visitHistory: [],
+        createdBy: req.user._id,
     });
 
     const updatedUrls = await URL.find({});
@@ -41,11 +42,8 @@ async function handleGetAnalytics(req, res) {
 }
 
 async function handleDeleteEntry(req, res) {
-    const entry = await URL.findByIdAndDelete(req.params.id);
-
-    const updatedUrls = await URL.find({});
-
-    return res.status(200).render('home', { urls: updatedUrls });
+    await URL.findByIdAndDelete(req.params.id);
+    return res.redirect("/");
 }
 
 module.exports = {
