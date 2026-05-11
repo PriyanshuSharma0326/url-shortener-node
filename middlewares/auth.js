@@ -16,12 +16,24 @@ async function strictLogin(req, res, next) {
 
 async function checkAuthenticated(req, res, next) {
     const uid = req.cookies?.uid;
-    const user = getUser(uid);
-    req.user = user;
+
+    if (!uid) {
+        req.user = null;
+        return next();
+    }
+
+    try {
+        const user = getUser(uid);
+        req.user = user;
+    }
+    catch (error) {
+        req.user = null;
+    }
+
     next();
 }
 
 module.exports = {
     strictLogin,
-    checkAuthenticated
+    checkAuthenticated,
 };

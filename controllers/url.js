@@ -21,7 +21,7 @@ async function handleGenerateShortId(req, res) {
 
     const updatedUrls = await URL.find({});
 
-    return res.status(201).render('home', { id: id, urls: updatedUrls });
+    return res.redirect('/');
 }
 
 async function handleGetAnalytics(req, res) {

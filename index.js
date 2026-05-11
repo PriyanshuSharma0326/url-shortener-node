@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 // Packages
 const express = require('express');
 const path = require('path');
@@ -16,12 +18,13 @@ const URL = require('./models/url');
 const { strictLogin, checkAuthenticated } = require('./middlewares/auth');
 
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 8001;
+const MONGO_URL = process.env.MONGO_URL;
 
 app.set('view engine', 'ejs');
 app.set('views', path.resolve('./views'));
 
-connectMongoDB('mongodb://127.0.0.1:27017/url-shortener');
+connectMongoDB(MONGO_URL);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

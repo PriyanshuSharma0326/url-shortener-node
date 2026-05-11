@@ -37,19 +37,14 @@ async function handleUserSignup(req, res) {
             });
         }
 
-        await User.create({
+        const user = await User.create({
             name,
             email,
             password,
         });
 
-        const sessionId = uuidv4();
-        const user = await User.findOne({
-            email: email,
-            password: password,
-        });
-        setUser(sessionId, user);
-        res.cookie('uid', sessionId);
+        const token = setUser(user);
+        res.cookie('uid', token);
         return res.redirect("/");
     }
     catch (error) {
@@ -64,6 +59,12 @@ async function handleUserSignup(req, res) {
 async function handleUserLogin(req, res) {
     const { email, password } = req.body;
 
+    if (!email || !password) {
+        return res.status(400).render('login', {
+            error: 'All fields are required',
+        });
+    }
+
     const user = await User.findOne({
         email: email,
         password: password,
@@ -72,10 +73,9 @@ async function handleUserLogin(req, res) {
     if(!user) {
         return res.status(404).render('login', { error: "Invalid username or password" });
     }
-    
-    const sessionId = uuidv4();
-    setUser(sessionId, user);
-    res.cookie('uid', sessionId);
+
+    const token = setUser(user);
+    res.cookie('uid', token);
     return res.redirect("/");
 }
 

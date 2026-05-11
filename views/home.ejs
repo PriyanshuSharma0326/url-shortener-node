@@ -44,8 +44,8 @@
         <% if (typeof id !== 'undefined' && id) { %>
             <p>
                 URL Generated:
-                <a href="http://localhost:8000/<%= id %>" target="_blank">
-                    http://localhost:8000/<%= id %>
+                <a href="http://localhost:8001/<%= id %>" target="_blank">
+                    http://localhost:8001/<%= id %>
                 </a>
             </p>
         <% } %>
@@ -64,7 +64,7 @@
                 <% urls.forEach((url) => { %>
                     <tr>
                         <td>
-                            <a href="http://localhost:8000/<%= url.shortId %>" target="_blank">
+                            <a href="http://localhost:8001/<%= url.shortId %>" target="_blank">
                                 <%= url.shortId %>
                             </a>
                         </td>
