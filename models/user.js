@@ -15,6 +15,11 @@ const userSchema = new mongoose
         type: String,
         required: true,
     },
+    role: {
+        type: String,
+        required: true,
+        default: "NORMAL",
+    }
 }, {
     timestamps: true,
 });

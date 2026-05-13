@@ -15,7 +15,7 @@ const userRouter = require('./routes/user');
 // Miscellaneous
 const connectMongoDB = require('./connection');
 const URL = require('./models/url');
-const { strictLogin, checkAuthenticated } = require('./middlewares/auth');
+const { checkForAuthentication, restrictTo } = require('./middlewares/auth');
 
 const app = express();
 const PORT = process.env.PORT || 8001;
@@ -30,12 +30,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(methodOverride('_method'));
 app.use(cookieParser());
+app.use(checkForAuthentication);
 
 // '/url'
-app.use('/url', strictLogin, urlRoute);
+app.use('/url', restrictTo(["NORMAL", "ADMIN"]), urlRoute);
 
 // '/'
-app.use('/', checkAuthenticated, staticRoute);
+app.use('/', staticRoute);
 
 // '/:shortId'
 app.use('/', shortIdRoute);
